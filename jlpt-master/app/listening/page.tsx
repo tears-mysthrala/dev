@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Howl } from 'howler';
 
 interface ListeningItem {
@@ -16,6 +16,8 @@ interface ListeningItem {
   }[];
 }
 
+export const dynamic = 'force-dynamic';
+
 export default function ListeningPage() {
   const [listening, setListening] = useState<ListeningItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -25,15 +27,7 @@ export default function ListeningPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const soundRef = useRef<Howl | null>(null);
 
-  useEffect(() => {
-    fetchListening();
-  }, [level]);
-
-  useEffect(() => {
-    stopAudio(); // Stop audio when changing exercises
-  }, [currentIndex]);
-
-  const fetchListening = async () => {
+  const fetchListening = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`/api/listening?level=${level}&limit=20`);
@@ -47,7 +41,15 @@ export default function ListeningPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [level]);
+
+  useEffect(() => {
+    fetchListening();
+  }, [fetchListening]);
+
+  useEffect(() => {
+    stopAudio(); // Stop audio when changing exercises
+  }, [currentIndex]);
 
   const playAudio = () => {
     if (soundRef.current) {
@@ -71,8 +73,10 @@ export default function ListeningPage() {
 
   useEffect(() => {
     return () => {
-      if (soundRef.current) {
-        soundRef.current.unload();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const sound = soundRef.current;
+      if (sound) {
+        sound.unload();
       }
     };
   }, []);

@@ -34,7 +34,7 @@ export default function RegisterPage() {
         const errorData = await response.json();
         setError(errorData.error || 'Registration failed');
       }
-    } catch (err) {
+    } catch {
       setError('Network error');
     } finally {
       setLoading(false);

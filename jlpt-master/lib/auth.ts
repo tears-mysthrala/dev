@@ -19,7 +19,7 @@ export async function verifyToken(token: string): Promise<AuthUser | null> {
       email: user.email,
       level: user.level
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

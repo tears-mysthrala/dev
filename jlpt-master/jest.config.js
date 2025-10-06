@@ -1,13 +1,21 @@
-export default {
-  preset: 'ts-jest/presets/default-esm',
+/** @type {import('jest').Config} */
+const config = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
+  testMatch: [
+    '<rootDir>/__tests__/**/*.test.(ts|tsx)',
+  ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
   },
-  moduleNameMapping: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  },
+  // Force exit to prevent hanging
+  forceExit: true,
+  // Detect open handles
+  detectOpenHandles: true,
+  // Clear mocks between tests
+  clearMocks: true,
+  // Restore mocks between tests
+  restoreMocks: true,
 };
+
+export default config;

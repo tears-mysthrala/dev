@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface VocabItem {
   _id: string;
@@ -16,6 +16,8 @@ interface Question {
   word: string;
 }
 
+export const dynamic = 'force-dynamic';
+
 export default function QuizzesPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -26,13 +28,7 @@ export default function QuizzesPage() {
   const [loading, setLoading] = useState(true);
   const [quizStarted, setQuizStarted] = useState(false);
 
-  useEffect(() => {
-    if (quizStarted) {
-      generateQuiz();
-    }
-  }, [level, quizStarted]);
-
-  const generateQuiz = async () => {
+  const generateQuiz = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`/api/vocab?level=${level}&limit=20`);
@@ -69,7 +65,13 @@ export default function QuizzesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [level]);
+
+  useEffect(() => {
+    if (quizStarted) {
+      generateQuiz();
+    }
+  }, [quizStarted, generateQuiz]);
 
   const startQuiz = () => {
     setQuizStarted(true);

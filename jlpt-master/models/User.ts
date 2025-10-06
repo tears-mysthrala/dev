@@ -13,6 +13,13 @@ export interface IUser extends Document {
     flashcards: number;
     quizzes: number;
   };
+  gamification: {
+    currentStreak: number;
+    longestStreak: number;
+    totalSessions: number;
+    badges: string[];
+    lastActivityDate: Date;
+  };
   createdAt: Date;
 }
 
@@ -28,6 +35,13 @@ const UserSchema: Schema = new Schema({
     listening: { type: Number, default: 0 },
     flashcards: { type: Number, default: 0 },
     quizzes: { type: Number, default: 0 },
+  },
+  gamification: {
+    currentStreak: { type: Number, default: 0 },
+    longestStreak: { type: Number, default: 0 },
+    totalSessions: { type: Number, default: 0 },
+    badges: [{ type: String }],
+    lastActivityDate: { type: Date, default: Date.now },
   },
 }, {
   timestamps: true,

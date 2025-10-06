@@ -26,6 +26,4 @@ const KanjiSchema: Schema = new Schema({
   timestamps: true,
 });
 
-KanjiSchema.index({ char: 1 });
-
 export default mongoose.models.Kanji || mongoose.model<IKanji>('Kanji', KanjiSchema);
