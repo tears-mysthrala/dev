@@ -4,7 +4,7 @@ import Vocab from '../models/Vocab.js';
 
 dotenv.config();
 
-const MONGODB_URI = process.env.DB_URL;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jlpt-master';
 
 async function seedVocab() {
   try {
@@ -27,7 +27,7 @@ async function seedVocab() {
         const data = await response.json();
         if (data.words.length === 0) break;
 
-        const vocabData = data.words.map(item => ({
+        const vocabData = data.words.map((item: any) => ({
           level: `N${item.level}`,
           word: item.word,
           romaji: item.romaji,

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const page = parseInt(searchParams.get('page') || '1');
 
-    let query: any = {};
+    const query: Record<string, string> = {};
     if (level) {
       query.level = level;
     }
