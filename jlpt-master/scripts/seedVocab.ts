@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Vocab from '../models/Vocab.js';
+import Vocab from '@/models/Vocab.js';
 
 dotenv.config();
 

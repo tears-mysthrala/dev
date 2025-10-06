@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Reading from '../models/Reading.js';
+import Reading from '@/models/Reading.js';
 
 async function seedReading() {
   try {

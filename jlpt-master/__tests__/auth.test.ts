@@ -1,4 +1,4 @@
-import { verifyToken } from '../lib/auth';
+import { verifyToken } from '@/lib/auth';
 
 describe('Auth Library', () => {
   it('should return null for invalid token', async () => {

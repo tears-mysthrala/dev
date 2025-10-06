@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Kanji from '../models/Kanji.js';
+import Kanji from '@/models/Kanji.js';
 
 async function seedKanji() {
   try {

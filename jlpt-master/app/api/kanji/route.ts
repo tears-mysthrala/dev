@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '../../../lib/dbConnect';
-import Kanji from '../../../models/Kanji';
+import dbConnect from '@/lib/dbConnect';
+import Kanji from '@/models/Kanji';
 
 export async function GET(request: NextRequest) {
   try {

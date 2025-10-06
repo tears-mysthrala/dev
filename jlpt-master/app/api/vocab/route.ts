@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Vocab from '../../../models/Vocab';
-import dbConnect from '../../../lib/dbConnect';
+import Vocab from '@/models/Vocab';
+import dbConnect from '@/lib/dbConnect';
 
 export async function GET(request: NextRequest) {
   try {

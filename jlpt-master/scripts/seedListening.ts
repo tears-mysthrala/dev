@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Listening from '../models/Listening.js';
+import Listening from '@/models/Listening.js';
 
 async function seedListening() {
   try {

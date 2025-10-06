@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Grammar from '../models/Grammar.js';
+import Grammar from '@/models/Grammar.js';
 
 async function seedGrammar() {
   try {
