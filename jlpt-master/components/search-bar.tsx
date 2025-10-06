@@ -15,7 +15,9 @@ export function SearchBar() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const debouncedQuery = useDebounce(query, 300);
 
@@ -57,6 +59,38 @@ export function SearchBar() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
+    setSelectedIndex(-1); // Reset selection when typing
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isOpen || results.length === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => 
+          prev < results.length - 1 ? prev + 1 : 0
+        );
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => 
+          prev > 0 ? prev - 1 : results.length - 1
+        );
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (selectedIndex >= 0 && selectedIndex < results.length) {
+          handleResultClick(results[selectedIndex].url);
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setIsOpen(false);
+        setSelectedIndex(-1);
+        inputRef.current?.blur();
+        break;
+    }
   };
 
   const handleResultClick = (url: string) => {
@@ -72,13 +106,15 @@ export function SearchBar() {
           Search for vocabulary, kanji, or grammar
         </label>
         <input
+          ref={inputRef}
           id="search-input"
           type="text"
           value={query}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           placeholder="Search vocabulary, kanji, grammar..."
           className="w-64 px-4 py-2 pl-10 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-          aria-expanded={isOpen ? "true" : "false"}
+          aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-autocomplete="list"
           aria-describedby={isLoading ? "search-loading" : undefined}
@@ -114,13 +150,18 @@ export function SearchBar() {
           aria-label="Search results"
           id="search-results"
         >
-          {results.map((result) => (
+          {results.map((result, index) => (
             <button
               key={`${result.type}-${result._id}`}
               onClick={() => handleResultClick(result.url)}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-b-0 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700"
+              onMouseEnter={() => setSelectedIndex(index)}
+              className={`w-full px-4 py-3 text-left border-b border-gray-100 dark:border-gray-700 last:border-b-0 focus:outline-none ${
+                index === selectedIndex
+                  ? 'bg-indigo-50 dark:bg-indigo-900/50'
+                  : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
               role="option"
-              aria-selected="false"
+              aria-selected={index === selectedIndex}
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
