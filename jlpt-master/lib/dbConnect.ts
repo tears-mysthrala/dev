@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.DB_URL!;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the DB_URL environment variable inside .env');
-}
+const MONGODB_URI = process.env.MONGODB_URI || process.env.DB_URL || 'mongodb://localhost:27017/jlpt-master';
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
