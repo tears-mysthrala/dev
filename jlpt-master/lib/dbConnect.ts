@@ -8,7 +8,7 @@ const MONGODB_URI = process.env.MONGODB_URI || process.env.DB_URL || 'mongodb://
  * during API Route usage.
  */
 declare global {
-  var mongoose: { conn: any; promise: any } | undefined;
+  var mongoose: { conn: unknown; promise: unknown } | undefined;
 }
 
 let cached = global.mongoose;
