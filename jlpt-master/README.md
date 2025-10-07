@@ -48,11 +48,6 @@ cp .env.example .env
 ```
 
 Edit `.env` with your configuration:
-```env
-DB_URL=mongodb+srv://username:password@cluster.mongodb.net/jlptdb
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
 
 4. Start the development server:
 ```bash
