@@ -30,7 +30,7 @@ export default function VocabPage() {
         throw new Error('Failed to fetch vocabulary');
       }
       const data = await response.json();
-      setVocab(data.vocab);
+      setVocab(data.vocab || []);
     } catch (error) {
       console.error('Error fetching vocab:', error);
       setError('Failed to load vocabulary. Please try again.');
@@ -130,7 +130,7 @@ export default function VocabPage() {
                       {item.meaning}
                     </p>
                   </div>
-                  {item.examples.length > 0 && (
+                  {(item.examples && Array.isArray(item.examples) && item.examples.length > 0) && (
                     <div>
                       <h3 className="font-semibold mb-2 text-gray-900 dark:text-gray-100">Examples:</h3>
                       <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1" role="list">

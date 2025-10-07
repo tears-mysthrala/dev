@@ -33,7 +33,7 @@ export default function KanjiPage() {
         throw new Error('Failed to fetch kanji');
       }
       const data = await response.json();
-      setKanji(data.kanji);
+      setKanji(data.kanji || []);
     } catch (error) {
       console.error('Error fetching kanji:', error);
       setError('Failed to load kanji. Please try again.');

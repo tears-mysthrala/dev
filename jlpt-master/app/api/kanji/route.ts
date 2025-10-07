@@ -10,10 +10,16 @@ export async function GET(request: NextRequest) {
     const level = searchParams.get('level');
     const limit = parseInt(searchParams.get('limit') || '50');
     const page = parseInt(searchParams.get('page') || '1');
+    const countOnly = searchParams.get('count') === 'true';
 
     const query: Record<string, string> = {};
     if (level) {
       query.level = level;
+    }
+
+    if (countOnly) {
+      const total = await Kanji.countDocuments(query);
+      return NextResponse.json({ total });
     }
 
     const skip = (page - 1) * limit;

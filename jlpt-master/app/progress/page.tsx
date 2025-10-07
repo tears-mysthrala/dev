@@ -81,8 +81,8 @@ export default function ProgressPage() {
         throw new Error('Failed to load user progress');
       }
       const data = await response.json();
-      setUserProgress(data.progress);
-      setGamification(data.gamification);
+      setUserProgress(data.progress || {});
+      setGamification(data.gamification || {});
     } catch (error) {
       console.error('Error loading user progress:', error);
       setUserProgressError('Failed to load user progress. Please try refreshing the page.');
@@ -118,8 +118,8 @@ export default function ProgressPage() {
       });
       if (response.ok) {
         const data = await response.json();
-        setUserProgress(data.progress);
-        setGamification(data.gamification);
+        setUserProgress(data.progress || {});
+        setGamification(data.gamification || {});
         if (data.newBadges && data.newBadges.length > 0) {
           setNewBadges(data.newBadges);
           // Show badge notification
@@ -147,19 +147,19 @@ export default function ProgressPage() {
       const kanjiCounts = { N5: 0, N4: 0, N3: 0, N2: 0, N1: 0 };
 
       for (const level of levels) {
-        const vocabResponse = await fetch(`/api/vocab?level=${level}&limit=1`);
+        const vocabResponse = await fetch(`/api/vocab?level=${level}&count=true`);
         if (!vocabResponse.ok) {
           throw new Error('Failed to fetch vocabulary stats');
         }
         const vocabData = await vocabResponse.json();
-        vocabCounts[level as keyof typeof vocabCounts] = vocabData.pagination.total;
+        vocabCounts[level as keyof typeof vocabCounts] = vocabData.total || 0;
 
-        const kanjiResponse = await fetch(`/api/kanji?level=${level}&limit=1`);
+        const kanjiResponse = await fetch(`/api/kanji?level=${level}&count=true`);
         if (!kanjiResponse.ok) {
           throw new Error('Failed to fetch kanji stats');
         }
         const kanjiData = await kanjiResponse.json();
-        kanjiCounts[level as keyof typeof kanjiCounts] = kanjiData.pagination.total;
+        kanjiCounts[level as keyof typeof kanjiCounts] = kanjiData.total || 0;
       }
 
       const totalVocab = Object.values(vocabCounts).reduce((sum, count) => sum + count, 0);

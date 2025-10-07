@@ -30,7 +30,7 @@ export default function FlashcardsPage() {
         throw new Error('Failed to fetch vocabulary');
       }
       const data = await response.json();
-      setVocab(data.vocab);
+      setVocab(data.vocab || []);
       setCurrentIndex(0);
       setIsFlipped(false);
     } catch (error) {
@@ -166,7 +166,7 @@ export default function FlashcardsPage() {
                 <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                   ({currentCard.romaji})
                 </div>
-                {currentCard.examples.length > 0 && (
+                {(currentCard.examples && Array.isArray(currentCard.examples) && currentCard.examples.length > 0) && (
                   <div className="text-sm text-gray-600 dark:text-gray-400">
                     <div className="font-medium mb-1">Example:</div>
                     <div lang="ja">{currentCard.examples[0]}</div>

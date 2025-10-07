@@ -32,7 +32,7 @@ export default function ListeningPage() {
     try {
       const response = await fetch(`/api/listening?level=${level}&limit=20`);
       const data = await response.json();
-      setListening(data.listening);
+      setListening(data.listening || []);
       setCurrentIndex(0);
       setShowTranscript(false);
       stopAudio(); // Stop any playing audio when changing level
@@ -174,7 +174,7 @@ export default function ListeningPage() {
               )}
             </div>
 
-            {currentItem.questions.length > 0 && (
+            {(currentItem.questions && Array.isArray(currentItem.questions) && currentItem.questions.length > 0) && (
               <div>
                 <h3 className="text-lg font-medium mb-4">Questions:</h3>
                 <div className="space-y-4">
@@ -182,7 +182,7 @@ export default function ListeningPage() {
                     <div key={index} className="border border-gray-200 rounded-md p-4">
                       <div className="font-medium mb-2">{q.question}</div>
                       <div className="space-y-2">
-                        {q.options.map((option, optIndex) => (
+                        {(q.options && Array.isArray(q.options)) && q.options.map((option, optIndex) => (
                           <div key={optIndex} className="flex items-center">
                             <input
                               type="radio"
