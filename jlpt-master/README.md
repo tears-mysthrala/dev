@@ -1,6 +1,10 @@
 # JLPT Master - Japanese Language Learning Platform
 
-A comprehensive web application for mastering the Japanese Language Proficiency Test (JLPT), built with Next.js 15, TypeScript, and Tailwind CSS.
+> **Prototype warning:** unfinished, never-deployed learning prototype. The
+> feature list below describes the *intended* scope from the specs, not verified
+> working behavior. See the repository root `README.md` for actual status.
+
+A prototype web application for mastering the Japanese Language Proficiency Test (JLPT), built with Next.js 15, TypeScript, and Tailwind CSS.
 
 ## Features
 
